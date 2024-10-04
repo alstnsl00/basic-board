@@ -1,0 +1,28 @@
+CREATE TABLE post (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FULLTEXT(title),
+    FULLTEXT(author)
+);
+
+CREATE TABLE comment (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    content TEXT NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    post_id INT NOT NULL,
+    parent_comment_id INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_comment_id) REFERENCES comment(id) ON DELETE CASCADE
+);
+
+CREATE TABLE keyword_alert (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    author VARCHAR(100) NOT NULL,
+    keyword VARCHAR(100) NOT NULL
+);
